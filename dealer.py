@@ -21,5 +21,27 @@ class Dealer:
         else:
             return self.show_first_card()
         
+    def hand_val(self):
+        """Calculate the total value of the dealer's hand."""
+        total = 0
+        aces = 0
+
+        for card in self.hand:
+            total += card.value
+            if card.rank == 'Ace':
+                aces += 1
+
+        # Adjust value for Aces if the total exceeds 21
+        while total > 21 and aces > 0:
+            total -= 10
+            aces -= 1
+
+        return total
+    
+    def should_draw_card(self):
+        """Determine if the dealer should draw another card (hit) based on their current hand."""
+        return self.hand_val() < 17
+    
+        
     
     
