@@ -19,7 +19,7 @@ class Dealer:
         if reveal_all:
             return ", ".join(str(card) for card in self.hand)
         else:
-            return self.show_first_card()
+            return self.show_first()
         
     def hand_val(self):
         """Calculate the total value of the dealer's hand."""

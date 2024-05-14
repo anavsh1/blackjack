@@ -41,14 +41,15 @@ class Blackjack:
 
         if player_total > 21:
             print("Player busts. Dealer wins.")
-        elif dealer_total > 21:
-            print("Dealer busts. Player wins.")
-        elif player_total > dealer_total:
+            self.player.adjust_chips('lose')
+        elif dealer_total > 21 or player_total > dealer_total:
             print("Player wins.")
+            self.player.adjust_chips('win')
         elif player_total == dealer_total:
             print("Push. It's a tie.")
         else:
             print("Dealer wins.")
+            self.player.adjust_chips('lose')
     
     def play_round(self):
         """Play one round of blackjack."""
@@ -56,6 +57,7 @@ class Blackjack:
         self.player.clear_hand()
         self.dealer.hand = []
         self.deck = Deck()
+        self.player.place_bet()
 
         # Initial dealing
         for _ in range(2):
@@ -81,13 +83,15 @@ class Blackjack:
         self.determine_results()
 
     def play_game(self):
-        """Control the main game loop to play multiple rounds."""
         while True:
             self.play_round()
+            if self.player.chips <= 0:
+                print("You've run out of chips! Game over.")
+                break
             replay = input("\nDo you want to play another round? (Y/N): ").strip().lower()
             if replay != 'y':
                 break
-        print("Thank you for playing!")
+        print(f"Thank you for playing!\nYour total winnings are: {self.player.chips}")
 
 if __name__ == "__main__":
     game = Blackjack()
